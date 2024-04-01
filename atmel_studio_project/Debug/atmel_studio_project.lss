@@ -1,0 +1,801 @@
+
+atmel_studio_project.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000004a0  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000004f4  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000004f4  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000524  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000070  00000000  00000000  00000560  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   000007b1  00000000  00000000  000005d0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000567  00000000  00000000  00000d81  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000ba0  00000000  00000000  000012e8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  000000a8  00000000  00000000  00001e88  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000318  00000000  00000000  00001f30  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000050  00000000  00000000  00002248  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 91 00 	call	0x122	; 0x122 <main>
+  64:	0c 94 4e 02 	jmp	0x49c	; 0x49c <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <forward>:
+#include "linefollower.h"
+
+
+void forward()
+{
+	PORTA |= (1 << PINA0); // motor 1 forward
+  6c:	8b b3       	in	r24, 0x1b	; 27
+  6e:	81 60       	ori	r24, 0x01	; 1
+  70:	8b bb       	out	0x1b, r24	; 27
+	PORTA &= ~(1 << PINA1);
+  72:	8b b3       	in	r24, 0x1b	; 27
+  74:	8d 7f       	andi	r24, 0xFD	; 253
+  76:	8b bb       	out	0x1b, r24	; 27
+
+	PORTA |= (1 << PINA2); // motor 2 forward
+  78:	8b b3       	in	r24, 0x1b	; 27
+  7a:	84 60       	ori	r24, 0x04	; 4
+  7c:	8b bb       	out	0x1b, r24	; 27
+	PORTA &= ~(1 << PINA3);
+  7e:	8b b3       	in	r24, 0x1b	; 27
+  80:	87 7f       	andi	r24, 0xF7	; 247
+  82:	8b bb       	out	0x1b, r24	; 27
+  84:	08 95       	ret
+
+00000086 <reverse>:
+}
+
+void reverse()
+{
+	// motor 1 reverse
+	PORTA &= ~(1 << PINA0);
+  86:	8b b3       	in	r24, 0x1b	; 27
+  88:	8e 7f       	andi	r24, 0xFE	; 254
+  8a:	8b bb       	out	0x1b, r24	; 27
+	PORTA |= (1 << PINA1);
+  8c:	8b b3       	in	r24, 0x1b	; 27
+  8e:	82 60       	ori	r24, 0x02	; 2
+  90:	8b bb       	out	0x1b, r24	; 27
+
+	// motor 2 reverse
+	PORTA &= ~(1 << PINA2);
+  92:	8b b3       	in	r24, 0x1b	; 27
+  94:	8b 7f       	andi	r24, 0xFB	; 251
+  96:	8b bb       	out	0x1b, r24	; 27
+	PORTA |= (1 << PINA3);
+  98:	8b b3       	in	r24, 0x1b	; 27
+  9a:	88 60       	ori	r24, 0x08	; 8
+  9c:	8b bb       	out	0x1b, r24	; 27
+  9e:	08 95       	ret
+
+000000a0 <stop>:
+}
+
+void stop()
+{
+	PORTA |= (1 << PINA0); // motor 1 stop
+  a0:	8b b3       	in	r24, 0x1b	; 27
+  a2:	81 60       	ori	r24, 0x01	; 1
+  a4:	8b bb       	out	0x1b, r24	; 27
+	PORTA |= (1 << PINA1);
+  a6:	8b b3       	in	r24, 0x1b	; 27
+  a8:	82 60       	ori	r24, 0x02	; 2
+  aa:	8b bb       	out	0x1b, r24	; 27
+	PORTA |= (1 << PINA2); // motor 2 stop
+  ac:	8b b3       	in	r24, 0x1b	; 27
+  ae:	84 60       	ori	r24, 0x04	; 4
+  b0:	8b bb       	out	0x1b, r24	; 27
+	PORTA |= (1 << PINA3);
+  b2:	8b b3       	in	r24, 0x1b	; 27
+  b4:	88 60       	ori	r24, 0x08	; 8
+  b6:	8b bb       	out	0x1b, r24	; 27
+  b8:	08 95       	ret
+
+000000ba <left>:
+}
+
+void left()
+{
+	PORTA |= (1 << PINA0); // motor 1 stop
+  ba:	8b b3       	in	r24, 0x1b	; 27
+  bc:	81 60       	ori	r24, 0x01	; 1
+  be:	8b bb       	out	0x1b, r24	; 27
+	PORTA |= (1 << PINA1);
+  c0:	8b b3       	in	r24, 0x1b	; 27
+  c2:	82 60       	ori	r24, 0x02	; 2
+  c4:	8b bb       	out	0x1b, r24	; 27
+	PORTA |= (1 << PINA2); // motor 2 forward
+  c6:	8b b3       	in	r24, 0x1b	; 27
+  c8:	84 60       	ori	r24, 0x04	; 4
+  ca:	8b bb       	out	0x1b, r24	; 27
+	PORTA &= ~(1 << PINA3);
+  cc:	8b b3       	in	r24, 0x1b	; 27
+  ce:	87 7f       	andi	r24, 0xF7	; 247
+  d0:	8b bb       	out	0x1b, r24	; 27
+  d2:	08 95       	ret
+
+000000d4 <right>:
+}
+
+void right()
+{
+	PORTA |= (1 << PINA0); // motor 1 forward
+  d4:	8b b3       	in	r24, 0x1b	; 27
+  d6:	81 60       	ori	r24, 0x01	; 1
+  d8:	8b bb       	out	0x1b, r24	; 27
+	PORTA &= ~(1 << PINA1);
+  da:	8b b3       	in	r24, 0x1b	; 27
+  dc:	8d 7f       	andi	r24, 0xFD	; 253
+  de:	8b bb       	out	0x1b, r24	; 27
+	PORTA |= (1 << PINA2); // motor 2 stop
+  e0:	8b b3       	in	r24, 0x1b	; 27
+  e2:	84 60       	ori	r24, 0x04	; 4
+  e4:	8b bb       	out	0x1b, r24	; 27
+	PORTA |= (1 << PINA3);
+  e6:	8b b3       	in	r24, 0x1b	; 27
+  e8:	88 60       	ori	r24, 0x08	; 8
+  ea:	8b bb       	out	0x1b, r24	; 27
+  ec:	08 95       	ret
+
+000000ee <acute_left>:
+}
+
+void acute_left()
+{
+	// motor 1 reverse
+	PORTA &= ~(1 << PINA0);
+  ee:	8b b3       	in	r24, 0x1b	; 27
+  f0:	8e 7f       	andi	r24, 0xFE	; 254
+  f2:	8b bb       	out	0x1b, r24	; 27
+	PORTA |= (1 << PINA1);
+  f4:	8b b3       	in	r24, 0x1b	; 27
+  f6:	82 60       	ori	r24, 0x02	; 2
+  f8:	8b bb       	out	0x1b, r24	; 27
+	PORTA |= (1 << PINA2); // motor 2 forward
+  fa:	8b b3       	in	r24, 0x1b	; 27
+  fc:	84 60       	ori	r24, 0x04	; 4
+  fe:	8b bb       	out	0x1b, r24	; 27
+	PORTA &= ~(1 << PINA3);
+ 100:	8b b3       	in	r24, 0x1b	; 27
+ 102:	87 7f       	andi	r24, 0xF7	; 247
+ 104:	8b bb       	out	0x1b, r24	; 27
+ 106:	08 95       	ret
+
+00000108 <acute_right>:
+}
+
+void acute_right()
+{
+	PORTA |= (1 << PINA0); // motor 1 forward
+ 108:	8b b3       	in	r24, 0x1b	; 27
+ 10a:	81 60       	ori	r24, 0x01	; 1
+ 10c:	8b bb       	out	0x1b, r24	; 27
+	PORTA &= ~(1 << PINA1);
+ 10e:	8b b3       	in	r24, 0x1b	; 27
+ 110:	8d 7f       	andi	r24, 0xFD	; 253
+ 112:	8b bb       	out	0x1b, r24	; 27
+	// motor 2 reverse
+	PORTA &= ~(1 << PINA2);
+ 114:	8b b3       	in	r24, 0x1b	; 27
+ 116:	8b 7f       	andi	r24, 0xFB	; 251
+ 118:	8b bb       	out	0x1b, r24	; 27
+	PORTA |= (1 << PINA3);
+ 11a:	8b b3       	in	r24, 0x1b	; 27
+ 11c:	88 60       	ori	r24, 0x08	; 8
+ 11e:	8b bb       	out	0x1b, r24	; 27
+ 120:	08 95       	ret
+
+00000122 <main>:
+
+#include "linefollower.h"
+
+int main(void)
+{
+	DDRA = 0b00001111;
+ 122:	8f e0       	ldi	r24, 0x0F	; 15
+ 124:	8a bb       	out	0x1a, r24	; 26
+	DDRB = 0b00000000;
+ 126:	17 ba       	out	0x17, r1	; 23
+	PORTA = 0b00000000;
+ 128:	1b ba       	out	0x1b, r1	; 27
+	PORTB = 0b00000000;
+ 12a:	18 ba       	out	0x18, r1	; 24
+	/* Replace with your application code */
+	while (1)
+	{
+
+		// keep going if all is on
+		if (bit_is_set(PINB, 0) && bit_is_set(PINB, 1) && bit_is_set(PINB, 2) && bit_is_set(PINB, 3) && bit_is_set(PINB, 4) && bit_is_set(PINB, 5) && bit_is_set(PINB, 6) && bit_is_set(PINB, 7))
+ 12c:	b0 9b       	sbis	0x16, 0	; 22
+ 12e:	11 c0       	rjmp	.+34     	; 0x152 <main+0x30>
+ 130:	b1 9b       	sbis	0x16, 1	; 22
+ 132:	0f c0       	rjmp	.+30     	; 0x152 <main+0x30>
+ 134:	b2 9b       	sbis	0x16, 2	; 22
+ 136:	0d c0       	rjmp	.+26     	; 0x152 <main+0x30>
+ 138:	b3 9b       	sbis	0x16, 3	; 22
+ 13a:	0b c0       	rjmp	.+22     	; 0x152 <main+0x30>
+ 13c:	b4 9b       	sbis	0x16, 4	; 22
+ 13e:	09 c0       	rjmp	.+18     	; 0x152 <main+0x30>
+ 140:	b5 9b       	sbis	0x16, 5	; 22
+ 142:	07 c0       	rjmp	.+14     	; 0x152 <main+0x30>
+ 144:	b6 9b       	sbis	0x16, 6	; 22
+ 146:	05 c0       	rjmp	.+10     	; 0x152 <main+0x30>
+ 148:	b7 9b       	sbis	0x16, 7	; 22
+ 14a:	03 c0       	rjmp	.+6      	; 0x152 <main+0x30>
+		{
+			stop();
+ 14c:	0e 94 50 00 	call	0xa0	; 0xa0 <stop>
+			continue;
+ 150:	ed cf       	rjmp	.-38     	; 0x12c <main+0xa>
+		}
+
+		// stop when all off
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 152:	b0 99       	sbic	0x16, 0	; 22
+ 154:	11 c0       	rjmp	.+34     	; 0x178 <main+0x56>
+ 156:	b1 99       	sbic	0x16, 1	; 22
+ 158:	0f c0       	rjmp	.+30     	; 0x178 <main+0x56>
+ 15a:	b2 99       	sbic	0x16, 2	; 22
+ 15c:	0d c0       	rjmp	.+26     	; 0x178 <main+0x56>
+ 15e:	b3 99       	sbic	0x16, 3	; 22
+ 160:	0b c0       	rjmp	.+22     	; 0x178 <main+0x56>
+ 162:	b4 99       	sbic	0x16, 4	; 22
+ 164:	09 c0       	rjmp	.+18     	; 0x178 <main+0x56>
+ 166:	b5 99       	sbic	0x16, 5	; 22
+ 168:	07 c0       	rjmp	.+14     	; 0x178 <main+0x56>
+ 16a:	b6 99       	sbic	0x16, 6	; 22
+ 16c:	05 c0       	rjmp	.+10     	; 0x178 <main+0x56>
+ 16e:	b7 99       	sbic	0x16, 7	; 22
+ 170:	03 c0       	rjmp	.+6      	; 0x178 <main+0x56>
+		{
+			forward();
+ 172:	0e 94 36 00 	call	0x6c	; 0x6c <forward>
+			continue;
+ 176:	da cf       	rjmp	.-76     	; 0x12c <main+0xa>
+		}
+
+		// for 3 bits
+		if (bit_is_set(PINB, 0) && bit_is_set(PINB, 1) && bit_is_set(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 178:	b0 9b       	sbis	0x16, 0	; 22
+ 17a:	11 c0       	rjmp	.+34     	; 0x19e <main+0x7c>
+ 17c:	b1 9b       	sbis	0x16, 1	; 22
+ 17e:	0f c0       	rjmp	.+30     	; 0x19e <main+0x7c>
+ 180:	b2 9b       	sbis	0x16, 2	; 22
+ 182:	0d c0       	rjmp	.+26     	; 0x19e <main+0x7c>
+ 184:	b3 99       	sbic	0x16, 3	; 22
+ 186:	0b c0       	rjmp	.+22     	; 0x19e <main+0x7c>
+ 188:	b4 99       	sbic	0x16, 4	; 22
+ 18a:	09 c0       	rjmp	.+18     	; 0x19e <main+0x7c>
+ 18c:	b5 99       	sbic	0x16, 5	; 22
+ 18e:	07 c0       	rjmp	.+14     	; 0x19e <main+0x7c>
+ 190:	b6 99       	sbic	0x16, 6	; 22
+ 192:	05 c0       	rjmp	.+10     	; 0x19e <main+0x7c>
+ 194:	b7 99       	sbic	0x16, 7	; 22
+ 196:	03 c0       	rjmp	.+6      	; 0x19e <main+0x7c>
+		{
+			acute_left();
+ 198:	0e 94 77 00 	call	0xee	; 0xee <acute_left>
+			continue;
+ 19c:	c7 cf       	rjmp	.-114    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_set(PINB, 1) && bit_is_set(PINB, 2) && bit_is_set(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 19e:	b0 99       	sbic	0x16, 0	; 22
+ 1a0:	11 c0       	rjmp	.+34     	; 0x1c4 <main+0xa2>
+ 1a2:	b1 9b       	sbis	0x16, 1	; 22
+ 1a4:	0f c0       	rjmp	.+30     	; 0x1c4 <main+0xa2>
+ 1a6:	b2 9b       	sbis	0x16, 2	; 22
+ 1a8:	0d c0       	rjmp	.+26     	; 0x1c4 <main+0xa2>
+ 1aa:	b3 9b       	sbis	0x16, 3	; 22
+ 1ac:	0b c0       	rjmp	.+22     	; 0x1c4 <main+0xa2>
+ 1ae:	b4 99       	sbic	0x16, 4	; 22
+ 1b0:	09 c0       	rjmp	.+18     	; 0x1c4 <main+0xa2>
+ 1b2:	b5 99       	sbic	0x16, 5	; 22
+ 1b4:	07 c0       	rjmp	.+14     	; 0x1c4 <main+0xa2>
+ 1b6:	b6 99       	sbic	0x16, 6	; 22
+ 1b8:	05 c0       	rjmp	.+10     	; 0x1c4 <main+0xa2>
+ 1ba:	b7 99       	sbic	0x16, 7	; 22
+ 1bc:	03 c0       	rjmp	.+6      	; 0x1c4 <main+0xa2>
+		{
+			left();
+ 1be:	0e 94 5d 00 	call	0xba	; 0xba <left>
+			continue;
+ 1c2:	b4 cf       	rjmp	.-152    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_set(PINB, 2) && bit_is_set(PINB, 3) && bit_is_set(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 1c4:	b0 99       	sbic	0x16, 0	; 22
+ 1c6:	11 c0       	rjmp	.+34     	; 0x1ea <main+0xc8>
+ 1c8:	b1 99       	sbic	0x16, 1	; 22
+ 1ca:	0f c0       	rjmp	.+30     	; 0x1ea <main+0xc8>
+ 1cc:	b2 9b       	sbis	0x16, 2	; 22
+ 1ce:	0d c0       	rjmp	.+26     	; 0x1ea <main+0xc8>
+ 1d0:	b3 9b       	sbis	0x16, 3	; 22
+ 1d2:	0b c0       	rjmp	.+22     	; 0x1ea <main+0xc8>
+ 1d4:	b4 9b       	sbis	0x16, 4	; 22
+ 1d6:	09 c0       	rjmp	.+18     	; 0x1ea <main+0xc8>
+ 1d8:	b5 99       	sbic	0x16, 5	; 22
+ 1da:	07 c0       	rjmp	.+14     	; 0x1ea <main+0xc8>
+ 1dc:	b6 99       	sbic	0x16, 6	; 22
+ 1de:	05 c0       	rjmp	.+10     	; 0x1ea <main+0xc8>
+ 1e0:	b7 99       	sbic	0x16, 7	; 22
+ 1e2:	03 c0       	rjmp	.+6      	; 0x1ea <main+0xc8>
+		{
+			forward();
+ 1e4:	0e 94 36 00 	call	0x6c	; 0x6c <forward>
+			continue;
+ 1e8:	a1 cf       	rjmp	.-190    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_set(PINB, 3) && bit_is_set(PINB, 4) && bit_is_set(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 1ea:	b0 99       	sbic	0x16, 0	; 22
+ 1ec:	11 c0       	rjmp	.+34     	; 0x210 <main+0xee>
+ 1ee:	b1 99       	sbic	0x16, 1	; 22
+ 1f0:	0f c0       	rjmp	.+30     	; 0x210 <main+0xee>
+ 1f2:	b2 99       	sbic	0x16, 2	; 22
+ 1f4:	0d c0       	rjmp	.+26     	; 0x210 <main+0xee>
+ 1f6:	b3 9b       	sbis	0x16, 3	; 22
+ 1f8:	0b c0       	rjmp	.+22     	; 0x210 <main+0xee>
+ 1fa:	b4 9b       	sbis	0x16, 4	; 22
+ 1fc:	09 c0       	rjmp	.+18     	; 0x210 <main+0xee>
+ 1fe:	b5 9b       	sbis	0x16, 5	; 22
+ 200:	07 c0       	rjmp	.+14     	; 0x210 <main+0xee>
+ 202:	b6 99       	sbic	0x16, 6	; 22
+ 204:	05 c0       	rjmp	.+10     	; 0x210 <main+0xee>
+ 206:	b7 99       	sbic	0x16, 7	; 22
+ 208:	03 c0       	rjmp	.+6      	; 0x210 <main+0xee>
+		{
+			forward();
+ 20a:	0e 94 36 00 	call	0x6c	; 0x6c <forward>
+			continue;
+ 20e:	8e cf       	rjmp	.-228    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_set(PINB, 4) && bit_is_set(PINB, 5) && bit_is_set(PINB, 6) && bit_is_clear(PINB, 7))
+ 210:	b0 99       	sbic	0x16, 0	; 22
+ 212:	11 c0       	rjmp	.+34     	; 0x236 <main+0x114>
+ 214:	b1 99       	sbic	0x16, 1	; 22
+ 216:	0f c0       	rjmp	.+30     	; 0x236 <main+0x114>
+ 218:	b2 99       	sbic	0x16, 2	; 22
+ 21a:	0d c0       	rjmp	.+26     	; 0x236 <main+0x114>
+ 21c:	b3 99       	sbic	0x16, 3	; 22
+ 21e:	0b c0       	rjmp	.+22     	; 0x236 <main+0x114>
+ 220:	b4 9b       	sbis	0x16, 4	; 22
+ 222:	09 c0       	rjmp	.+18     	; 0x236 <main+0x114>
+ 224:	b5 9b       	sbis	0x16, 5	; 22
+ 226:	07 c0       	rjmp	.+14     	; 0x236 <main+0x114>
+ 228:	b6 9b       	sbis	0x16, 6	; 22
+ 22a:	05 c0       	rjmp	.+10     	; 0x236 <main+0x114>
+ 22c:	b7 99       	sbic	0x16, 7	; 22
+ 22e:	03 c0       	rjmp	.+6      	; 0x236 <main+0x114>
+		{
+			right();
+ 230:	0e 94 6a 00 	call	0xd4	; 0xd4 <right>
+			continue;
+ 234:	7b cf       	rjmp	.-266    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_set(PINB, 5) && bit_is_set(PINB, 6) && bit_is_set(PINB, 7))
+ 236:	b0 99       	sbic	0x16, 0	; 22
+ 238:	11 c0       	rjmp	.+34     	; 0x25c <main+0x13a>
+ 23a:	b1 99       	sbic	0x16, 1	; 22
+ 23c:	0f c0       	rjmp	.+30     	; 0x25c <main+0x13a>
+ 23e:	b2 99       	sbic	0x16, 2	; 22
+ 240:	0d c0       	rjmp	.+26     	; 0x25c <main+0x13a>
+ 242:	b3 99       	sbic	0x16, 3	; 22
+ 244:	0b c0       	rjmp	.+22     	; 0x25c <main+0x13a>
+ 246:	b4 99       	sbic	0x16, 4	; 22
+ 248:	09 c0       	rjmp	.+18     	; 0x25c <main+0x13a>
+ 24a:	b5 9b       	sbis	0x16, 5	; 22
+ 24c:	07 c0       	rjmp	.+14     	; 0x25c <main+0x13a>
+ 24e:	b6 9b       	sbis	0x16, 6	; 22
+ 250:	05 c0       	rjmp	.+10     	; 0x25c <main+0x13a>
+ 252:	b7 9b       	sbis	0x16, 7	; 22
+ 254:	03 c0       	rjmp	.+6      	; 0x25c <main+0x13a>
+		{
+			acute_right();
+ 256:	0e 94 84 00 	call	0x108	; 0x108 <acute_right>
+			continue;
+ 25a:	68 cf       	rjmp	.-304    	; 0x12c <main+0xa>
+		}
+
+		// for 2 bits
+		if (bit_is_set(PINB, 0) && bit_is_set(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 25c:	b0 9b       	sbis	0x16, 0	; 22
+ 25e:	11 c0       	rjmp	.+34     	; 0x282 <main+0x160>
+ 260:	b1 9b       	sbis	0x16, 1	; 22
+ 262:	0f c0       	rjmp	.+30     	; 0x282 <main+0x160>
+ 264:	b2 99       	sbic	0x16, 2	; 22
+ 266:	0d c0       	rjmp	.+26     	; 0x282 <main+0x160>
+ 268:	b3 99       	sbic	0x16, 3	; 22
+ 26a:	0b c0       	rjmp	.+22     	; 0x282 <main+0x160>
+ 26c:	b4 99       	sbic	0x16, 4	; 22
+ 26e:	09 c0       	rjmp	.+18     	; 0x282 <main+0x160>
+ 270:	b5 99       	sbic	0x16, 5	; 22
+ 272:	07 c0       	rjmp	.+14     	; 0x282 <main+0x160>
+ 274:	b6 99       	sbic	0x16, 6	; 22
+ 276:	05 c0       	rjmp	.+10     	; 0x282 <main+0x160>
+ 278:	b7 99       	sbic	0x16, 7	; 22
+ 27a:	03 c0       	rjmp	.+6      	; 0x282 <main+0x160>
+		{
+			acute_left();
+ 27c:	0e 94 77 00 	call	0xee	; 0xee <acute_left>
+			continue;
+ 280:	55 cf       	rjmp	.-342    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_set(PINB, 1) && bit_is_set(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 282:	b0 99       	sbic	0x16, 0	; 22
+ 284:	11 c0       	rjmp	.+34     	; 0x2a8 <main+0x186>
+ 286:	b1 9b       	sbis	0x16, 1	; 22
+ 288:	0f c0       	rjmp	.+30     	; 0x2a8 <main+0x186>
+ 28a:	b2 9b       	sbis	0x16, 2	; 22
+ 28c:	0d c0       	rjmp	.+26     	; 0x2a8 <main+0x186>
+ 28e:	b3 99       	sbic	0x16, 3	; 22
+ 290:	0b c0       	rjmp	.+22     	; 0x2a8 <main+0x186>
+ 292:	b4 99       	sbic	0x16, 4	; 22
+ 294:	09 c0       	rjmp	.+18     	; 0x2a8 <main+0x186>
+ 296:	b5 99       	sbic	0x16, 5	; 22
+ 298:	07 c0       	rjmp	.+14     	; 0x2a8 <main+0x186>
+ 29a:	b6 99       	sbic	0x16, 6	; 22
+ 29c:	05 c0       	rjmp	.+10     	; 0x2a8 <main+0x186>
+ 29e:	b7 99       	sbic	0x16, 7	; 22
+ 2a0:	03 c0       	rjmp	.+6      	; 0x2a8 <main+0x186>
+		{
+			acute_left();
+ 2a2:	0e 94 77 00 	call	0xee	; 0xee <acute_left>
+			continue;
+ 2a6:	42 cf       	rjmp	.-380    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_set(PINB, 2) && bit_is_set(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 2a8:	b0 99       	sbic	0x16, 0	; 22
+ 2aa:	11 c0       	rjmp	.+34     	; 0x2ce <main+0x1ac>
+ 2ac:	b1 99       	sbic	0x16, 1	; 22
+ 2ae:	0f c0       	rjmp	.+30     	; 0x2ce <main+0x1ac>
+ 2b0:	b2 9b       	sbis	0x16, 2	; 22
+ 2b2:	0d c0       	rjmp	.+26     	; 0x2ce <main+0x1ac>
+ 2b4:	b3 9b       	sbis	0x16, 3	; 22
+ 2b6:	0b c0       	rjmp	.+22     	; 0x2ce <main+0x1ac>
+ 2b8:	b4 99       	sbic	0x16, 4	; 22
+ 2ba:	09 c0       	rjmp	.+18     	; 0x2ce <main+0x1ac>
+ 2bc:	b5 99       	sbic	0x16, 5	; 22
+ 2be:	07 c0       	rjmp	.+14     	; 0x2ce <main+0x1ac>
+ 2c0:	b6 99       	sbic	0x16, 6	; 22
+ 2c2:	05 c0       	rjmp	.+10     	; 0x2ce <main+0x1ac>
+ 2c4:	b7 99       	sbic	0x16, 7	; 22
+ 2c6:	03 c0       	rjmp	.+6      	; 0x2ce <main+0x1ac>
+		{
+			left();
+ 2c8:	0e 94 5d 00 	call	0xba	; 0xba <left>
+			continue;
+ 2cc:	2f cf       	rjmp	.-418    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_set(PINB, 3) && bit_is_set(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 2ce:	b0 99       	sbic	0x16, 0	; 22
+ 2d0:	11 c0       	rjmp	.+34     	; 0x2f4 <main+0x1d2>
+ 2d2:	b1 99       	sbic	0x16, 1	; 22
+ 2d4:	0f c0       	rjmp	.+30     	; 0x2f4 <main+0x1d2>
+ 2d6:	b2 99       	sbic	0x16, 2	; 22
+ 2d8:	0d c0       	rjmp	.+26     	; 0x2f4 <main+0x1d2>
+ 2da:	b3 9b       	sbis	0x16, 3	; 22
+ 2dc:	0b c0       	rjmp	.+22     	; 0x2f4 <main+0x1d2>
+ 2de:	b4 9b       	sbis	0x16, 4	; 22
+ 2e0:	09 c0       	rjmp	.+18     	; 0x2f4 <main+0x1d2>
+ 2e2:	b5 99       	sbic	0x16, 5	; 22
+ 2e4:	07 c0       	rjmp	.+14     	; 0x2f4 <main+0x1d2>
+ 2e6:	b6 99       	sbic	0x16, 6	; 22
+ 2e8:	05 c0       	rjmp	.+10     	; 0x2f4 <main+0x1d2>
+ 2ea:	b7 99       	sbic	0x16, 7	; 22
+ 2ec:	03 c0       	rjmp	.+6      	; 0x2f4 <main+0x1d2>
+		{
+			forward();
+ 2ee:	0e 94 36 00 	call	0x6c	; 0x6c <forward>
+			continue;
+ 2f2:	1c cf       	rjmp	.-456    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_set(PINB, 4) && bit_is_set(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 2f4:	b0 99       	sbic	0x16, 0	; 22
+ 2f6:	11 c0       	rjmp	.+34     	; 0x31a <main+0x1f8>
+ 2f8:	b1 99       	sbic	0x16, 1	; 22
+ 2fa:	0f c0       	rjmp	.+30     	; 0x31a <main+0x1f8>
+ 2fc:	b2 99       	sbic	0x16, 2	; 22
+ 2fe:	0d c0       	rjmp	.+26     	; 0x31a <main+0x1f8>
+ 300:	b3 99       	sbic	0x16, 3	; 22
+ 302:	0b c0       	rjmp	.+22     	; 0x31a <main+0x1f8>
+ 304:	b4 9b       	sbis	0x16, 4	; 22
+ 306:	09 c0       	rjmp	.+18     	; 0x31a <main+0x1f8>
+ 308:	b5 9b       	sbis	0x16, 5	; 22
+ 30a:	07 c0       	rjmp	.+14     	; 0x31a <main+0x1f8>
+ 30c:	b6 99       	sbic	0x16, 6	; 22
+ 30e:	05 c0       	rjmp	.+10     	; 0x31a <main+0x1f8>
+ 310:	b7 99       	sbic	0x16, 7	; 22
+ 312:	03 c0       	rjmp	.+6      	; 0x31a <main+0x1f8>
+		{
+			right();
+ 314:	0e 94 6a 00 	call	0xd4	; 0xd4 <right>
+			continue;
+ 318:	09 cf       	rjmp	.-494    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_set(PINB, 5) && bit_is_set(PINB, 6) && bit_is_clear(PINB, 7))
+ 31a:	b0 99       	sbic	0x16, 0	; 22
+ 31c:	11 c0       	rjmp	.+34     	; 0x340 <main+0x21e>
+ 31e:	b1 99       	sbic	0x16, 1	; 22
+ 320:	0f c0       	rjmp	.+30     	; 0x340 <main+0x21e>
+ 322:	b2 99       	sbic	0x16, 2	; 22
+ 324:	0d c0       	rjmp	.+26     	; 0x340 <main+0x21e>
+ 326:	b3 99       	sbic	0x16, 3	; 22
+ 328:	0b c0       	rjmp	.+22     	; 0x340 <main+0x21e>
+ 32a:	b4 99       	sbic	0x16, 4	; 22
+ 32c:	09 c0       	rjmp	.+18     	; 0x340 <main+0x21e>
+ 32e:	b5 9b       	sbis	0x16, 5	; 22
+ 330:	07 c0       	rjmp	.+14     	; 0x340 <main+0x21e>
+ 332:	b6 9b       	sbis	0x16, 6	; 22
+ 334:	05 c0       	rjmp	.+10     	; 0x340 <main+0x21e>
+ 336:	b7 99       	sbic	0x16, 7	; 22
+ 338:	03 c0       	rjmp	.+6      	; 0x340 <main+0x21e>
+		{
+			acute_right();
+ 33a:	0e 94 84 00 	call	0x108	; 0x108 <acute_right>
+			continue;
+ 33e:	f6 ce       	rjmp	.-532    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_set(PINB, 6) && bit_is_set(PINB, 7))
+ 340:	b0 99       	sbic	0x16, 0	; 22
+ 342:	11 c0       	rjmp	.+34     	; 0x366 <main+0x244>
+ 344:	b1 99       	sbic	0x16, 1	; 22
+ 346:	0f c0       	rjmp	.+30     	; 0x366 <main+0x244>
+ 348:	b2 99       	sbic	0x16, 2	; 22
+ 34a:	0d c0       	rjmp	.+26     	; 0x366 <main+0x244>
+ 34c:	b3 99       	sbic	0x16, 3	; 22
+ 34e:	0b c0       	rjmp	.+22     	; 0x366 <main+0x244>
+ 350:	b4 99       	sbic	0x16, 4	; 22
+ 352:	09 c0       	rjmp	.+18     	; 0x366 <main+0x244>
+ 354:	b5 99       	sbic	0x16, 5	; 22
+ 356:	07 c0       	rjmp	.+14     	; 0x366 <main+0x244>
+ 358:	b6 9b       	sbis	0x16, 6	; 22
+ 35a:	05 c0       	rjmp	.+10     	; 0x366 <main+0x244>
+ 35c:	b7 9b       	sbis	0x16, 7	; 22
+ 35e:	03 c0       	rjmp	.+6      	; 0x366 <main+0x244>
+		{
+			acute_right();
+ 360:	0e 94 84 00 	call	0x108	; 0x108 <acute_right>
+			continue;
+ 364:	e3 ce       	rjmp	.-570    	; 0x12c <main+0xa>
+		}
+
+		// for only 1 bit
+		if (bit_is_set(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 366:	b0 9b       	sbis	0x16, 0	; 22
+ 368:	11 c0       	rjmp	.+34     	; 0x38c <main+0x26a>
+ 36a:	b1 99       	sbic	0x16, 1	; 22
+ 36c:	0f c0       	rjmp	.+30     	; 0x38c <main+0x26a>
+ 36e:	b2 99       	sbic	0x16, 2	; 22
+ 370:	0d c0       	rjmp	.+26     	; 0x38c <main+0x26a>
+ 372:	b3 99       	sbic	0x16, 3	; 22
+ 374:	0b c0       	rjmp	.+22     	; 0x38c <main+0x26a>
+ 376:	b4 99       	sbic	0x16, 4	; 22
+ 378:	09 c0       	rjmp	.+18     	; 0x38c <main+0x26a>
+ 37a:	b5 99       	sbic	0x16, 5	; 22
+ 37c:	07 c0       	rjmp	.+14     	; 0x38c <main+0x26a>
+ 37e:	b6 99       	sbic	0x16, 6	; 22
+ 380:	05 c0       	rjmp	.+10     	; 0x38c <main+0x26a>
+ 382:	b7 99       	sbic	0x16, 7	; 22
+ 384:	03 c0       	rjmp	.+6      	; 0x38c <main+0x26a>
+		{
+			acute_left();
+ 386:	0e 94 77 00 	call	0xee	; 0xee <acute_left>
+			continue;
+ 38a:	d0 ce       	rjmp	.-608    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_set(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 38c:	b0 99       	sbic	0x16, 0	; 22
+ 38e:	11 c0       	rjmp	.+34     	; 0x3b2 <main+0x290>
+ 390:	b1 9b       	sbis	0x16, 1	; 22
+ 392:	0f c0       	rjmp	.+30     	; 0x3b2 <main+0x290>
+ 394:	b2 99       	sbic	0x16, 2	; 22
+ 396:	0d c0       	rjmp	.+26     	; 0x3b2 <main+0x290>
+ 398:	b3 99       	sbic	0x16, 3	; 22
+ 39a:	0b c0       	rjmp	.+22     	; 0x3b2 <main+0x290>
+ 39c:	b4 99       	sbic	0x16, 4	; 22
+ 39e:	09 c0       	rjmp	.+18     	; 0x3b2 <main+0x290>
+ 3a0:	b5 99       	sbic	0x16, 5	; 22
+ 3a2:	07 c0       	rjmp	.+14     	; 0x3b2 <main+0x290>
+ 3a4:	b6 99       	sbic	0x16, 6	; 22
+ 3a6:	05 c0       	rjmp	.+10     	; 0x3b2 <main+0x290>
+ 3a8:	b7 99       	sbic	0x16, 7	; 22
+ 3aa:	03 c0       	rjmp	.+6      	; 0x3b2 <main+0x290>
+		{
+			acute_left();
+ 3ac:	0e 94 77 00 	call	0xee	; 0xee <acute_left>
+			continue;
+ 3b0:	bd ce       	rjmp	.-646    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_set(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 3b2:	b0 99       	sbic	0x16, 0	; 22
+ 3b4:	11 c0       	rjmp	.+34     	; 0x3d8 <main+0x2b6>
+ 3b6:	b1 99       	sbic	0x16, 1	; 22
+ 3b8:	0f c0       	rjmp	.+30     	; 0x3d8 <main+0x2b6>
+ 3ba:	b2 9b       	sbis	0x16, 2	; 22
+ 3bc:	0d c0       	rjmp	.+26     	; 0x3d8 <main+0x2b6>
+ 3be:	b3 99       	sbic	0x16, 3	; 22
+ 3c0:	0b c0       	rjmp	.+22     	; 0x3d8 <main+0x2b6>
+ 3c2:	b4 99       	sbic	0x16, 4	; 22
+ 3c4:	09 c0       	rjmp	.+18     	; 0x3d8 <main+0x2b6>
+ 3c6:	b5 99       	sbic	0x16, 5	; 22
+ 3c8:	07 c0       	rjmp	.+14     	; 0x3d8 <main+0x2b6>
+ 3ca:	b6 99       	sbic	0x16, 6	; 22
+ 3cc:	05 c0       	rjmp	.+10     	; 0x3d8 <main+0x2b6>
+ 3ce:	b7 99       	sbic	0x16, 7	; 22
+ 3d0:	03 c0       	rjmp	.+6      	; 0x3d8 <main+0x2b6>
+		{
+			left();
+ 3d2:	0e 94 5d 00 	call	0xba	; 0xba <left>
+			continue;
+ 3d6:	aa ce       	rjmp	.-684    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_set(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 3d8:	b0 99       	sbic	0x16, 0	; 22
+ 3da:	11 c0       	rjmp	.+34     	; 0x3fe <main+0x2dc>
+ 3dc:	b1 99       	sbic	0x16, 1	; 22
+ 3de:	0f c0       	rjmp	.+30     	; 0x3fe <main+0x2dc>
+ 3e0:	b2 99       	sbic	0x16, 2	; 22
+ 3e2:	0d c0       	rjmp	.+26     	; 0x3fe <main+0x2dc>
+ 3e4:	b3 9b       	sbis	0x16, 3	; 22
+ 3e6:	0b c0       	rjmp	.+22     	; 0x3fe <main+0x2dc>
+ 3e8:	b4 99       	sbic	0x16, 4	; 22
+ 3ea:	09 c0       	rjmp	.+18     	; 0x3fe <main+0x2dc>
+ 3ec:	b5 99       	sbic	0x16, 5	; 22
+ 3ee:	07 c0       	rjmp	.+14     	; 0x3fe <main+0x2dc>
+ 3f0:	b6 99       	sbic	0x16, 6	; 22
+ 3f2:	05 c0       	rjmp	.+10     	; 0x3fe <main+0x2dc>
+ 3f4:	b7 99       	sbic	0x16, 7	; 22
+ 3f6:	03 c0       	rjmp	.+6      	; 0x3fe <main+0x2dc>
+		{
+			forward();
+ 3f8:	0e 94 36 00 	call	0x6c	; 0x6c <forward>
+			continue;
+ 3fc:	97 ce       	rjmp	.-722    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_set(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 3fe:	b0 99       	sbic	0x16, 0	; 22
+ 400:	11 c0       	rjmp	.+34     	; 0x424 <__EEPROM_REGION_LENGTH__+0x24>
+ 402:	b1 99       	sbic	0x16, 1	; 22
+ 404:	0f c0       	rjmp	.+30     	; 0x424 <__EEPROM_REGION_LENGTH__+0x24>
+ 406:	b2 99       	sbic	0x16, 2	; 22
+ 408:	0d c0       	rjmp	.+26     	; 0x424 <__EEPROM_REGION_LENGTH__+0x24>
+ 40a:	b3 99       	sbic	0x16, 3	; 22
+ 40c:	0b c0       	rjmp	.+22     	; 0x424 <__EEPROM_REGION_LENGTH__+0x24>
+ 40e:	b4 9b       	sbis	0x16, 4	; 22
+ 410:	09 c0       	rjmp	.+18     	; 0x424 <__EEPROM_REGION_LENGTH__+0x24>
+ 412:	b5 99       	sbic	0x16, 5	; 22
+ 414:	07 c0       	rjmp	.+14     	; 0x424 <__EEPROM_REGION_LENGTH__+0x24>
+ 416:	b6 99       	sbic	0x16, 6	; 22
+ 418:	05 c0       	rjmp	.+10     	; 0x424 <__EEPROM_REGION_LENGTH__+0x24>
+ 41a:	b7 99       	sbic	0x16, 7	; 22
+ 41c:	03 c0       	rjmp	.+6      	; 0x424 <__EEPROM_REGION_LENGTH__+0x24>
+		{
+			forward();
+ 41e:	0e 94 36 00 	call	0x6c	; 0x6c <forward>
+			continue;
+ 422:	84 ce       	rjmp	.-760    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_set(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_clear(PINB, 7))
+ 424:	b0 99       	sbic	0x16, 0	; 22
+ 426:	11 c0       	rjmp	.+34     	; 0x44a <__EEPROM_REGION_LENGTH__+0x4a>
+ 428:	b1 99       	sbic	0x16, 1	; 22
+ 42a:	0f c0       	rjmp	.+30     	; 0x44a <__EEPROM_REGION_LENGTH__+0x4a>
+ 42c:	b2 99       	sbic	0x16, 2	; 22
+ 42e:	0d c0       	rjmp	.+26     	; 0x44a <__EEPROM_REGION_LENGTH__+0x4a>
+ 430:	b3 99       	sbic	0x16, 3	; 22
+ 432:	0b c0       	rjmp	.+22     	; 0x44a <__EEPROM_REGION_LENGTH__+0x4a>
+ 434:	b4 99       	sbic	0x16, 4	; 22
+ 436:	09 c0       	rjmp	.+18     	; 0x44a <__EEPROM_REGION_LENGTH__+0x4a>
+ 438:	b5 9b       	sbis	0x16, 5	; 22
+ 43a:	07 c0       	rjmp	.+14     	; 0x44a <__EEPROM_REGION_LENGTH__+0x4a>
+ 43c:	b6 99       	sbic	0x16, 6	; 22
+ 43e:	05 c0       	rjmp	.+10     	; 0x44a <__EEPROM_REGION_LENGTH__+0x4a>
+ 440:	b7 99       	sbic	0x16, 7	; 22
+ 442:	03 c0       	rjmp	.+6      	; 0x44a <__EEPROM_REGION_LENGTH__+0x4a>
+		{
+			right();
+ 444:	0e 94 6a 00 	call	0xd4	; 0xd4 <right>
+			continue;
+ 448:	71 ce       	rjmp	.-798    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_set(PINB, 6) && bit_is_clear(PINB, 7))
+ 44a:	b0 99       	sbic	0x16, 0	; 22
+ 44c:	11 c0       	rjmp	.+34     	; 0x470 <__EEPROM_REGION_LENGTH__+0x70>
+ 44e:	b1 99       	sbic	0x16, 1	; 22
+ 450:	0f c0       	rjmp	.+30     	; 0x470 <__EEPROM_REGION_LENGTH__+0x70>
+ 452:	b2 99       	sbic	0x16, 2	; 22
+ 454:	0d c0       	rjmp	.+26     	; 0x470 <__EEPROM_REGION_LENGTH__+0x70>
+ 456:	b3 99       	sbic	0x16, 3	; 22
+ 458:	0b c0       	rjmp	.+22     	; 0x470 <__EEPROM_REGION_LENGTH__+0x70>
+ 45a:	b4 99       	sbic	0x16, 4	; 22
+ 45c:	09 c0       	rjmp	.+18     	; 0x470 <__EEPROM_REGION_LENGTH__+0x70>
+ 45e:	b5 99       	sbic	0x16, 5	; 22
+ 460:	07 c0       	rjmp	.+14     	; 0x470 <__EEPROM_REGION_LENGTH__+0x70>
+ 462:	b6 9b       	sbis	0x16, 6	; 22
+ 464:	05 c0       	rjmp	.+10     	; 0x470 <__EEPROM_REGION_LENGTH__+0x70>
+ 466:	b7 99       	sbic	0x16, 7	; 22
+ 468:	03 c0       	rjmp	.+6      	; 0x470 <__EEPROM_REGION_LENGTH__+0x70>
+		{
+			acute_right();
+ 46a:	0e 94 84 00 	call	0x108	; 0x108 <acute_right>
+			continue;
+ 46e:	5e ce       	rjmp	.-836    	; 0x12c <main+0xa>
+		}
+		if (bit_is_clear(PINB, 0) && bit_is_clear(PINB, 1) && bit_is_clear(PINB, 2) && bit_is_clear(PINB, 3) && bit_is_clear(PINB, 4) && bit_is_clear(PINB, 5) && bit_is_clear(PINB, 6) && bit_is_set(PINB, 7))
+ 470:	b0 99       	sbic	0x16, 0	; 22
+ 472:	11 c0       	rjmp	.+34     	; 0x496 <__EEPROM_REGION_LENGTH__+0x96>
+ 474:	b1 99       	sbic	0x16, 1	; 22
+ 476:	0f c0       	rjmp	.+30     	; 0x496 <__EEPROM_REGION_LENGTH__+0x96>
+ 478:	b2 99       	sbic	0x16, 2	; 22
+ 47a:	0d c0       	rjmp	.+26     	; 0x496 <__EEPROM_REGION_LENGTH__+0x96>
+ 47c:	b3 99       	sbic	0x16, 3	; 22
+ 47e:	0b c0       	rjmp	.+22     	; 0x496 <__EEPROM_REGION_LENGTH__+0x96>
+ 480:	b4 99       	sbic	0x16, 4	; 22
+ 482:	09 c0       	rjmp	.+18     	; 0x496 <__EEPROM_REGION_LENGTH__+0x96>
+ 484:	b5 99       	sbic	0x16, 5	; 22
+ 486:	07 c0       	rjmp	.+14     	; 0x496 <__EEPROM_REGION_LENGTH__+0x96>
+ 488:	b6 99       	sbic	0x16, 6	; 22
+ 48a:	05 c0       	rjmp	.+10     	; 0x496 <__EEPROM_REGION_LENGTH__+0x96>
+ 48c:	b7 9b       	sbis	0x16, 7	; 22
+ 48e:	03 c0       	rjmp	.+6      	; 0x496 <__EEPROM_REGION_LENGTH__+0x96>
+		{
+			acute_right();
+ 490:	0e 94 84 00 	call	0x108	; 0x108 <acute_right>
+			continue;
+ 494:	4b ce       	rjmp	.-874    	; 0x12c <main+0xa>
+		}
+
+		reverse();
+ 496:	0e 94 43 00 	call	0x86	; 0x86 <reverse>
+ 49a:	48 ce       	rjmp	.-880    	; 0x12c <main+0xa>
+
+0000049c <_exit>:
+ 49c:	f8 94       	cli
+
+0000049e <__stop_program>:
+ 49e:	ff cf       	rjmp	.-2      	; 0x49e <__stop_program>
