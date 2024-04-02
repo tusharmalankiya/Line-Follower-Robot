@@ -50,7 +50,7 @@ The Line Follower Robot is an autonomous robot designed to follow a predefined p
 
 ## Demo
 
-- [Video](./docs/videos/demo.mp4)
+https://github.com/tusharmalankiya/Line-Follower-Robot/assets/85736626/e55f9d38-f96c-406a-9e31-598a2bb3ed1c
 
 ## Contributing
 
