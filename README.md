@@ -14,13 +14,21 @@ The Line Follower Robot is an autonomous robot designed to follow a predefined p
 - Microcontroller: Atmega32
 - Voltage Regulator: LM7805
 - Motor Driver: L293D
+- General Purpose PCB
+- 10 pin FRC port
+- USBASP programmer
+- Battery (12V)
 - DC Motors
 - Infrared Line Sensor
+- LED green and red
+- Resistor(330ohm)
+- Capacitor(1uf and 10uf)
 - Male-Female Headers
 - Jumper Wires
 - Wheels
+- Castor wheel
+- On/off push button
 - Chassis
-- Battery
 - IC Beds
 
 ## Software Tools
