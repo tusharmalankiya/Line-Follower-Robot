@@ -27,6 +27,7 @@ The Line Follower Robot is an autonomous robot designed to follow a predefined p
 - Jumper Wires
 - Wheels
 - Castor wheel
+- Steel grip
 - On/off push button
 - Chassis
 - IC Beds
