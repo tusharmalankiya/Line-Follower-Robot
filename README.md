@@ -1,6 +1,6 @@
 # Line Follower Robot
 
-<p style="align:center">
+<p align=center>
 <img src="./docs/images/img1.jpg" alt="Line Follower Robot" height="250">
 </p>
 
